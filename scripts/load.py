@@ -1,7 +1,7 @@
 import hashlib
 import random
 from review_production.models import *
-<<<<<<< HEAD
+
 import os
 import csv
 from password_generator import PasswordGenerator
@@ -58,8 +58,8 @@ def create_review_object():
             review_count = review_count + 1
         print(count,test[1])
         count = count + 1
-=======
+
 
 def run():
     product.objects.all().delete()
->>>>>>> parent of cdccff2 (import data from dataset into postgresql)
+
