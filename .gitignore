@@ -1,0 +1,11 @@
+*.xml
+*.pyc
+*.sqlite3
+*.iml
+*.dump
+
+metadata.json
+db.sqlite3
+
+review_production/migrations/
+/.env
