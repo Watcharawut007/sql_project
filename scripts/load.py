@@ -5,10 +5,11 @@ from review_production.models import *
 import os
 import csv
 from password_generator import PasswordGenerator
-file = open("C:/Users/peeza/PycharmProjects/djangoProject2/scripts/archive/1429_1.csv",encoding="utf8")
+file = open("C:/Users/peeza/PycharmProjects/djangoProject2/sql_project/scripts/archive/1429_1.csv",encoding="utf8")
 csv = csv.reader(file)
+
 def run():
-    create_review_object()
+    create_product_object()
 def create_user_object():
     password = PasswordGenerator()
     password.excludeschars = "!$%^{}[]()=/"
@@ -60,6 +61,5 @@ def create_review_object():
         count = count + 1
 
 
-def run():
-    product.objects.all().delete()
+
 
