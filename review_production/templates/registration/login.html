@@ -1,0 +1,15 @@
+<head>login</head>
+<form class="form-signin" method="post">
+    {% csrf_token %}
+<input type="hidden" name="login" value="{{ next }}" />
+    {% for field in form %}
+      <input  id="{{ field.id_for_label }}" placeholder="{{ field.html_name }}" maxlength="30" name="{{ field.html_name }}" type="{{ field.html_name }}"/>
+    {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+    {% endfor %}
+  {% if form.errors %}
+    <p style="color: red">Username and Password didn't match.<br>Please try again.</p>
+  {% endif %}
+      <button type="submit">Log in</button>
+  <p></p>

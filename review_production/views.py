@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django.shortcuts import render
 from django.http import Http404
 from django.http import HttpResponse
@@ -20,9 +21,9 @@ def product_list(request):
     if request.method == "GET":
         products = product.objects.all()
         serialized = ProductSerializer(products, many=True)
-        
+
         return JsonResponse(serialized.data, safe=False)
-    
+
 @csrf_exempt
 @api_view(['GET', 'POST', ])
 def product_detail(request, product_id):
@@ -59,3 +60,6 @@ def review_detail(request, review_id):
 
 def search(request):
     return 0
+
+def successlogin(request):
+    return render(request, 'test.html', {'name': request.user.username })

@@ -9,21 +9,34 @@ file = open("C:/Users/peeza/PycharmProjects/djangoProject2/sql_project/scripts/a
 csv = csv.reader(file)
 
 def run():
-    create_product_object()
+    create_user_object()
+def create_dummy_object():
+    password = '123'
+
+    User.objects.get(username='dummy',password=password)
 def create_user_object():
     password = PasswordGenerator()
     password.excludeschars = "!$%^{}[]()=/"
     count = 0
+    dup = []
     for test in csv:
         if count == 0:
             pass
             count = count + 1
         elif count == 1000:
             break
+        elif test[20] in dup:
+            pass
         else :
-            passw = hashlib.md5(password.generate().encode())
-            User.objects.create(username=test[20],password=passw.hexdigest())
+            passw = password.generate()
+            print(test[20],passw+'\n')
+            User.objects.create(username=test[20])
+            user = User.objects.get(username=test[20])
+            user.set_password(passw)
+            user.save()
+            dup.append(test[20])
             count = count + 1
+
 def create_product_object():
     dup = []
     for test in csv:
