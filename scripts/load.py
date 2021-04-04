@@ -11,23 +11,33 @@ file = open("C:/Users/Be/Desktop/1429_1.csv",encoding="utf8")
 csv = csv.reader(file)
 
 def run():
-    create_review_object()
+    create_user_object()
+def create_dummy_object():
+    password = '123'
 
+    User.objects.get(username='dummy',password=password)
 def create_user_object():
     password = PasswordGenerator()
     password.excludeschars = "!$%^{}[]()=/"
     count = 0
+    dup = []
     for test in csv:
         if count == 0:
             pass
             count = count + 1
         elif count == 1000:
             break
+        elif test[20] in dup:
+            pass
         else :
-            passw = hashlib.md5(password.generate().encode())
-            if not(User.objects.filter(username=test[20]).exists()):
-                User.objects.create(username=test[20],password=passw.hexdigest())
-                count = count + 1
+            passw = password.generate()
+            print(test[20],passw+'\n')
+            User.objects.create(username=test[20])
+            user = User.objects.get(username=test[20])
+            user.set_password(passw)
+            user.save()
+            dup.append(test[20])
+            count = count + 1
 
 def create_product_object():
     for test in csv:

@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django.shortcuts import render
 from django.http import Http404
 from django.http import HttpResponse
@@ -91,3 +92,6 @@ def review_detail(request, review_id):
 
 def search(request):
     return 0
+
+def successlogin(request):
+    return render(request, 'test.html', {'name': request.user.username })
