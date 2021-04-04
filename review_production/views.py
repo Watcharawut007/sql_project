@@ -66,7 +66,7 @@ def product_reviews(request, product_id):
         data = {}
         data["page_number"] = page_number
         data["num_pages"] = pagnitor.num_pages
-        data["reviewss_list"] = serialized.data
+        data["reviews_list"] = serialized.data
         return JsonResponse(data, safe=False)
 
 @csrf_exempt
