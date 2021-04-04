@@ -12,11 +12,16 @@ class ReviewSerealizer(serializers.ModelSerializer):
     user = UserSerealizer()
     class Meta:
         model = review
-        fields = ['review_id', 'user', 'rating', 'Title', 'comment_text']
+        fields = ['review_id', 'user', 'rating', 'title', 'comment_text']
 
 class ProductSerializer(serializers.ModelSerializer):
     reviews = ReviewSerealizer(many=True)
     class Meta:
         model = product
         fields = ['product_id', 'product_name', 'catagories', 'reviews']
+
+class ProductsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = product
+        fields = ['product_id', 'product_name', 'catagories',]
 

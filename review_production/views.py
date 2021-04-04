@@ -6,24 +6,33 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponseNotFound
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 
 from rest_framework import status
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.response import Response
 
+import json
 from .models import product, review
-from .serializers import ProductSerializer, ReviewSerealizer
+from .serializers import ProductsSerializer, ProductSerializer, ReviewSerealizer
 # Create your views here.
 
 @csrf_exempt
 @api_view(['GET', 'POST', ])
 def product_list(request):
     if request.method == "GET":
+        page_number = request.GET.get("page",1)
         products = product.objects.all()
-        serialized = ProductSerializer(products, many=True)
+        pagnitor  = Paginator(products, 25)
 
-        return JsonResponse(serialized.data, safe=False)
-
+        serialized = ProductsSerializer(pagnitor.get_page(page_number), many=True)
+        
+        data = {}
+        data["page_number"] = page_number
+        data["num_pages"] = pagnitor.num_pages
+        data["products_list"] = serialized.data
+        return JsonResponse(data, safe=False)
+    
 @csrf_exempt
 @api_view(['GET', 'POST', ])
 def product_detail(request, product_id):
@@ -31,11 +40,34 @@ def product_detail(request, product_id):
         p = product.objects.get(pk=product_id)
     except product.DoesNotExist:
         content = {'except': 'DoesNotExist'}
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(content,status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = ProductSerializer(p)
+        serializer = ProductsSerializer(p)
+        
         return JsonResponse(serializer.data)
+
+@csrf_exempt
+@api_view(['GET', 'POST',])
+def product_reviews(request, product_id):
+    try:
+        p = product.objects.get(pk=product_id)
+    except product.DoesNotExist:
+        content = {'except': 'DoesNotExist'}
+        return Response(content,status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        page_number = request.GET.get("page",1)
+        reviews = review.objects.filter(product=p)
+        pagnitor  = Paginator(reviews, 25)
+
+        serialized = ReviewSerealizer(pagnitor.get_page(page_number), many=True)
+
+        data = {}
+        data["page_number"] = page_number
+        data["num_pages"] = pagnitor.num_pages
+        data["reviewss_list"] = serialized.data
+        return JsonResponse(data, safe=False)
 
 @csrf_exempt
 @api_view(['GET', 'POST', ])

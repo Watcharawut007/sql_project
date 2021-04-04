@@ -14,7 +14,7 @@ class product(models.Model):
 class review(models.Model):
     rating_score = [1,2,3,4,5]
     review_id = models.AutoField(primary_key=True)
-    Title = models.CharField(max_length=1000)
+    title = models.CharField(max_length=1000)
     comment_text = models.CharField(max_length=10000)
     rating = models.IntegerField(default=1,
         validators=[MaxValueValidator(5), MinValueValidator(1)])
@@ -22,6 +22,6 @@ class review(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE, related_name="reviews")
 
     def __str__(self):
-        return self.Title
+        return self.title
     
 

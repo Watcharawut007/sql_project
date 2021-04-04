@@ -2,4 +2,5 @@ django==3.1.5
 django-extensions==3.1.1
 psycopg2-binary==2.8.6
 djangorestframework==3.12.4
-random_password_generator==2.1.2
+random_password_generator==2.1.0
+django_cors_headers==3.7.0
