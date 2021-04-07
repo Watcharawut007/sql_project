@@ -32,6 +32,9 @@ def product_list(request):
         data["num_pages"] = pagnitor.num_pages
         data["products_list"] = serialized.data
         return JsonResponse(data, safe=False)
+
+    elif request.method == "POST":
+        pass
     
 @csrf_exempt
 @api_view(['GET', 'POST', ])
@@ -90,6 +93,20 @@ def review_detail(request, review_id):
         serializer = ReviewSerealizer(r)
         return JsonResponse(serializer.data)
 
+
+@api_view(['GET', "POST"])
+@csrf_exempt
+def user_login_api(request):
+    if request.method == 'POST':
+        username = request.data.get('username')
+        password = request.data.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return JsonResponse({"success":True})
+        return JsonResponse({"success":False})
+
+
 def search(request):
     return 0
 
@@ -105,6 +122,7 @@ def user_login(request):
         return render(request, 'home.html', {'name': request.user.username})
     else:
         return render(request, 'registration/login.html')
+
 
 def user_logout(request):
     logout(request)
