@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from review_production.models import *
 
 from password_generator import PasswordGenerator
-file = open("C:/Users/Be/Desktop/1429_1.csv",encoding="utf8")
+file = open("C:/Users/peeza/PycharmProjects/djangoProject2/sql_project/scripts/archive/1429_1.csv",encoding="utf8")
 csv = csv.reader(file)
 
 def run():
@@ -29,6 +29,13 @@ def create_user_object():
             break
         elif test[20] in dup:
             pass
+        elif count == 1:
+            passw = "12345"
+            user = User.objects.create(username="usertest")
+            user.set_password(passw)
+            user.save()
+            dup.append(test[20])
+            count = count + 1
         else :
             passw = password.generate()
             print(test[20],passw+'\n')

@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import login,authenticate, logout
 from django.shortcuts import render
 from django.http import Http404
 from django.http import HttpResponse
@@ -95,3 +95,17 @@ def search(request):
 
 def successlogin(request):
     return render(request, 'test.html', {'name': request.user.username })
+
+def user_login(request):
+    username = request.POST.get('username',"")
+    password = request.POST.get('password',"")
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return render(request, 'home.html', {'name': request.user.username})
+    else:
+        return render(request, 'registration/login.html')
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/login')
