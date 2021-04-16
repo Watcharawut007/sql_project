@@ -25,3 +25,11 @@ class ProductsSerializer(serializers.ModelSerializer):
         model = product
         fields = ['product_id', 'product_name', 'catagories',]
 
+class NewReviewSerealizer(serializers.ModelSerializer):
+    class Meta:
+        model = review
+        fields = ['user', 'rating', 'title', 'comment_text']
+    
+    def to_representation(self, instance):
+        self.fields['user'] =  UserSerializer(read_only=True)
+        return super(NewReviewSerealizer, self).to_representation(instance)
