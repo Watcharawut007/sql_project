@@ -20,7 +20,7 @@ class review(models.Model):
         validators=[MaxValueValidator(5), MinValueValidator(1)])
     product =  models.ForeignKey(product,on_delete=models.CASCADE, related_name="reviews")
     user = models.ForeignKey(User,on_delete=models.CASCADE, related_name="reviews")
-
+    
     def __str__(self):
         return self.title
     
